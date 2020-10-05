@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+    <header>
+
+    </header>
+    <body>
+        <canvas id="canvas"></canvas>
+        <button onclick="createNode('osc')">Create Osc</button>
+        <button onclick="createNode('dest')">Create Dest</button>
+        <button onclick="createNode('number')">Create Number</button>
+        <button onclick="createNode('add')">Create Add</button>
+    </body>
+    <style>
+        body, html {
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+    </style>
+    <script type="module">
+        import { createNode } from "./scripts/main.js";
+        window.createNode = createNode;
+    </script>
+</html>
