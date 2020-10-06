@@ -47,12 +47,10 @@ function executeTreeUntilPending(node) {
 }
 
 export function update() {
-    // the first list of nodes passed in may not all be ready
-    // they're nodes that got updated externally
-    readyNodes = readyNodes.filter(node => node.isReady());
     for (const node of readyNodes) {
-
+        executeTreeUntilPending(node);
     }
+    readyNodes = [];
 }
 
 export class Oscillator {
