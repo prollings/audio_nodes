@@ -40,6 +40,9 @@ function executeTreeUntilPending(node) {
     node.execute();
     // go through all outputs
     for (const output of node.outputList) {
+        if (output.type === "signal") {
+            continue;
+        }
         for (const wire of output.wires) {
             executeTreeUntilPending(wire.input.parentNode);
         }
