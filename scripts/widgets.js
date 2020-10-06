@@ -49,7 +49,7 @@ export class Widget {
 export class Checkbox extends Widget {
     constructor(parent) {
         super(parent);
-        this.state = false;
+        this.checked = false;
     }
 
     draw() {
@@ -62,7 +62,7 @@ export class Checkbox extends Widget {
             colCheckboxStroke,
             2
         );
-        if (this.state) {
+        if (this.checked) {
             draw.fillRect(
                 { x: this.pos.x + 3, y: this.pos.y + 3 },
                 { w: 10, h: 10 },
@@ -84,8 +84,8 @@ export class Checkbox extends Widget {
     }
 
     onClick() {
-        this.state = !this.state;
-        this.parentInput.receive(this.state);
+        this.checked = !this.checked;
+        this.parentInput.receive(this.checked);
     }
 
     onEnter() {
