@@ -261,6 +261,10 @@ export class Node {
             engine.submitReadyNode(this);
         }
     }
+
+    execute() {
+        return;
+    }
 }
 
 export class Test extends Node {
@@ -346,10 +350,6 @@ export class Number extends Node {
         this.inputList[0].onReceive = value => {
             this.outputList[0].transmitToAllWires(value);
         };
-    }
-
-    execute() {
-        this.outputList[0].transmitToAllWires(value);
     }
 }
 
