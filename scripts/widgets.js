@@ -105,10 +105,6 @@ export class Number extends Widget {
         this.upperLimit = 0;
         this.lowerLimit = 0;
         this.step = 0.1;
-        this.onValueChange = _ => {
-            this.parentInput.propagatePendingStatus();
-            this.parentInput.setReady();
-        };
     }
 
     draw() {
@@ -165,4 +161,10 @@ export class Number extends Widget {
     onLeave() {
         this.meta.mouseHovered = false;
     }
+
+    onValueChange() {
+        this.parentInput.receive(this.value);
+        this.parentInput.propagatePendingStatus();
+        this.parentInput.setReady();
+    };
 }
