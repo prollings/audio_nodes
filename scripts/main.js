@@ -355,6 +355,7 @@ export function createNode(type) {
 
 // frame
 function drawFrame(dt) {
+    engine.update();
     draw.fillBackground(colBackground);
     // draw wires
     if (heldOutputWire !== undefined) {
