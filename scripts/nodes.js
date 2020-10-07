@@ -263,7 +263,14 @@ export class Node {
     }
 
     execute() {
-        return;
+        for (let input of this.inputList) {
+            input.status = status.IDLE;
+        }
+        this.onExecute();
+    }
+
+    onExecute() {
+        // overridden in subclass
     }
 }
 
