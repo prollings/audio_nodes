@@ -69,6 +69,7 @@ export class Oscillator {
         for (const node of this.connectedNodes) {
             this.node.connect(node);
         }
+        this.node.type = "square";
         this.node.start();
         this.setFrequency(this.frequency);
         this.started = true;
