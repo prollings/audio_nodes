@@ -101,7 +101,12 @@ export class Input {
 
     receive(value) {
         this.value = value;
+        this.setReady();
         this.onReceive(value);
+    }
+
+    onReceive() {
+        // defined by parent node
     }
 
     propagatePendingStatus() {
