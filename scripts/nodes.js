@@ -381,7 +381,7 @@ export class Add extends Node {
         this.initHeight();
     }
 
-    execute() {
+    onExecute() {
         let a = this.inputList[0].value;
         let b = this.inputList[1].value;
         this.outputList[0].transmitToAllWires(a + b);
