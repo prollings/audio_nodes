@@ -46,7 +46,7 @@ function drawNode(node) {
                 x: input.pos.x + 5 + (consts.connectPointRadius * 2),
                 y: input.pos.y + 12
             };
-            draw.fillText(pos, input.label, colLabel, "11px");
+            draw.fillText(pos, input.label, colLabel, "10px");
         }
     }
 
@@ -56,7 +56,7 @@ function drawNode(node) {
             x: node.pos.x + node.size.w - consts.connectPointRadius * 3,
             y: output.pos.y + 12,
         };
-        draw.fillText(pos, output.label, colLabel, "11px", "right");
+        draw.fillText(pos, output.label, colLabel, "10px", "right");
     }
 
     // connect points
