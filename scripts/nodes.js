@@ -329,6 +329,42 @@ export class Osc extends Node {
     }
 }
 
+export class BiquadFilter extends Node {
+    constructor(pos) {
+        super();
+        this.name = "Biquad Filter";
+        this.inputList = [
+            new Input(this, "Signal", "signal"),
+            new Input(this, "Type", "number"),
+            new Input(this, "Frequency", "number"),
+            new Input(this, "Q", "number"),
+            new Input(this, "Gain", "number"),
+        ];
+        this.outputList = [
+            new Output(this, "Signal", "signal"),
+        ];
+        this.backend = {
+            node: engine.audioCtx.createBiquadFilter(),
+        }
+        this.backend.node.type = "lowpass";
+        
+        this.inputList[1].onReceive = type => { /* switch for types */ };
+        this.inputList[2].onReceive = freq => {
+            this.backend.node.frequency.value = freq;
+        };
+        this.inputList[3].onReceive = qval => {
+            this.backend.node.Q.value = qval;
+        };
+        this.inputList[4].onReceive = gain => {
+            this.backend.node.gain.value = gain;
+        };
+
+        this.setPos(pos);
+        this.setWidth(120);
+        this.initHeight();
+    }
+}
+
 export class Dest extends Node {
     constructor(pos) {
         super();
