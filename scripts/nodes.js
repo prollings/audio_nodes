@@ -54,6 +54,8 @@ export class Input {
                 this.widget = new widgets.Number(this);
                 this.value = def ? def : 0;
                 break;
+            case "trigger":
+                this.widget = new widgets.Button(this);
             default:
                 break;
         }
