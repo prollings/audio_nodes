@@ -6,6 +6,7 @@ const colWidgetArea     = "#333";
 const colCheckboxStroke = "#777";
 const colCheckboxFill   = "#999";
 const colWidgetHover    = "#aaa3";
+const colButtonFill     = "#666";
 
 const textSize = "10px";
 
@@ -37,6 +38,14 @@ export class Widget {
 
     setVisible(vis) {
         this.visible = vis;
+    }
+
+    onEnter() {
+        this.meta.mouseHovered = true;
+    }
+
+    onLeave() {
+        this.meta.mouseHovered = false;
     }
 
     onClick(pos) {}
@@ -87,13 +96,36 @@ export class Checkbox extends Widget {
         this.checked = !this.checked;
         this.parentInput.receive(this.checked);
     }
+}
 
-    onEnter() {
-        this.meta.mouseHovered = true;
+export class Button extends Widget {
+    constructor(parent) {
+        super(parent);
     }
 
-    onLeave() {
-        this.meta.mouseHovered = false;
+    draw() {
+        // bound
+        draw.fillRect(this.pos, this.size, colWidgetArea);
+        // button\
+        let buttonPos = {
+            x: this.pos.x + 1,
+            y: this.pos.y + 1
+        };
+        let buttonSize = {
+            h: this.size.h - 2,
+            w: this.size.w - 2
+        };
+        draw.fillRect(buttonPos, buttonSize, colButtonFill);
+        // label
+        let labelPos = {
+            x: this.pos.x + (this.size.w / 2),
+            y: this.pos.y + 12
+        };
+        draw.fillText(labelPos, this.label, colLabel, textSize, "center");
+        // highlight
+        if (this.meta.mouseHovered) {
+            draw.fillRect(buttonPos, buttonSize, colWidgetHover);
+        }
     }
 }
 
@@ -152,14 +184,6 @@ export class Number extends Widget {
         }
         // this.parentInput.receive(this.value);
         this.onValueChange(this.value);
-    }
-
-    onEnter() {
-        this.meta.mouseHovered = true;
-    }
-
-    onLeave() {
-        this.meta.mouseHovered = false;
     }
 
     onValueChange() {
