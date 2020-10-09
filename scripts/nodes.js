@@ -284,10 +284,10 @@ export class Test extends Node {
         super();
         this.name = "test";
         this.inputList = [
-            new Input(this, "CB 1",  "bool"),
-            new Input(this, "Num 1", "number"),
-            new Input(this, "CB 2",  "bool"),
             new Input(this, "test",  "signal"),
+            new Input(this, "Checkbox",  "bool"),
+            new Input(this, "Number", "number"),
+            new Input(this, "Button", "trigger"),
         ];
         this.outputList = [
             new Output(this, "Val 1", "bool"),
