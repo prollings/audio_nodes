@@ -360,6 +360,8 @@ export function createNode(type) {
         case "biquad filter":
             nodeList.push(new nodes.BiquadFilter({x: 0, y: 0}));
             break;
+        case "test":
+            nodeList.push(new nodes.Test({ x: 0, y: 0 }));
     }
 }
 
