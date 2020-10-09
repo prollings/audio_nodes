@@ -19,11 +19,18 @@ const colNodeHighlight  = "#aaa";
 
 // setup modules
 draw.setCanvas(canvas);
-draw.setCanvasSize({
-    w: window.innerWidth,
-    h: window.innerHeight,
-});
 
+function resizeCanvas() {
+    let canvasBox = document.getElementById("canvas-box");
+    draw.setCanvasSize({
+        w: canvasBox.clientWidth,
+        h: window.innerHeight,
+    });
+}
+
+resizeCanvas();
+
+window.addEventListener("resize", resizeCanvas);
 // utils
 function drawNode(node) {
     let pos = node.pos;
