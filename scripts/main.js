@@ -308,9 +308,10 @@ document.addEventListener("mousedown", ev => {
 document.addEventListener("mouseup", ev => {
     // moving nodes
     isDraggingNode = false;
-    if (heldWidget === focusWidget) {
-        heldWidget?.onClick();
-        heldWidget?.onMouseUp();
+    // widgets
+    if (heldWidget !== undefined && heldWidget === focusWidget) {
+        heldWidget.onClick();
+        heldWidget.onMouseUp();
     }
     heldWidget = undefined;
 
