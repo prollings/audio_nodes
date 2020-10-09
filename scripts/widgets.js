@@ -165,7 +165,7 @@ export class Number extends Widget {
     }
 
     onMouseDown() {
-        document.body.requestPointerLock();
+        draw.canvas.requestPointerLock();
     }
 
     onMouseUp() {

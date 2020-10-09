@@ -1,6 +1,6 @@
 "use strict";
 
-let canvas;
+export let canvas;
 let ctx;
 
 export function setCanvas(new_canvas) {
