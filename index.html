@@ -4,17 +4,54 @@
 
     </header>
     <body>
-        <canvas id="canvas"></canvas>
-        <button onclick="createNode('osc')">Create Osc</button>
-        <button onclick="createNode('dest')">Create Dest</button>
-        <button onclick="createNode('number')">Create Number</button>
-        <button onclick="createNode('add')">Create Add</button>
-        <button onclick="createNode('biquad filter')">Create Biquad Filter</button>
+        <div id="container">
+            <div id="controls-box">
+                <p>Sources</p>
+                <button onclick="createNode('osc')">Osc</button>
+                <p>Sinks</p>
+                <button onclick="createNode('dest')">Dest</button>
+                <p>Processors</p>
+                <button onclick="createNode('biquad filter')">Biquad Filter</button>
+                <p>Maths</p>
+                <button onclick="createNode('number')">Number</button>
+                <button onclick="createNode('add')">Add</button>
+                <p>Other</p>
+                <button onclick="createNode('test')">Test</button>
+            </div>
+            <div id="canvas-box">
+                <canvas id="canvas"></canvas>
+            </div>
+        </div>
     </body>
     <style>
         body, html {
             margin: 0 !important;
             padding: 0 !important;
+        }
+
+        body {
+            padding: 0;
+            margin: 0px auto;
+        }
+
+        #container {
+            display: flex;
+            flex-direction: row;
+        }
+
+        #controls-box {
+            display: flex;
+            flex-direction: column;
+        }
+
+        #canvas-box {
+            display: flex;
+            background-color: aqua;
+            flex-grow: 1;
+        }
+
+        p {
+            margin-bottom: 0%;
         }
     </style>
     <script type="module">
