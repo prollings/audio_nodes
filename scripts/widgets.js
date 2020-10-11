@@ -101,6 +101,7 @@ export class Checkbox extends Widget {
 export class Button extends Widget {
     constructor(parent) {
         super(parent);
+        this.down = false;
     }
 
     draw() {
@@ -126,6 +127,17 @@ export class Button extends Widget {
         if (this.meta.mouseHovered) {
             draw.fillRect(buttonPos, buttonSize, colWidgetHover);
         }
+
+    onMouseDown() {
+        this.meta.mouseDown = true;
+    }
+
+    onMouseUp() {
+        this.meta.mouseDown = false;
+    }
+
+    onClick() {
+        this.parentInput.receive();
     }
 }
 
