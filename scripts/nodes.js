@@ -204,7 +204,7 @@ export class Node {
         }
         let inputY = pos.y + 22;
         if (outputYVals.length > 0) {
-            inputY = outputYVals[outputYVals.length - 1] + consts.normalSlotHeight * 2;
+            inputY = outputYVals[outputYVals.length - 1] + consts.normalSlotHeight;
         }
         let inputYVals = [];
         for (const input of this.inputList) {
