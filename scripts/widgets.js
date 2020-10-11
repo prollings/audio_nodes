@@ -7,6 +7,7 @@ const colCheckboxStroke = "#777";
 const colCheckboxFill   = "#999";
 const colWidgetHover    = "#aaa3";
 const colButtonFill     = "#666";
+const colButtonOutline  = "#66f";
 
 const textSize = "10px";
 
@@ -124,9 +125,13 @@ export class Button extends Widget {
         };
         draw.fillText(labelPos, this.label, colLabel, textSize, "center");
         // highlight
-        if (this.meta.mouseHovered) {
+        if (this.meta.mouseDown) {
+            draw.strokeRect(buttonPos, buttonSize, colButtonOutline);
+        } else if (this.meta.mouseHovered) {
             draw.fillRect(buttonPos, buttonSize, colWidgetHover);
+            draw.strokeRect(buttonPos, buttonSize, colButtonOutline);
         }
+    }
 
     onMouseDown() {
         this.meta.mouseDown = true;
