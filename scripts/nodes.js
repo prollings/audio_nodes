@@ -437,3 +437,27 @@ export class Select extends Node {
     selector input, the output could adopt its options and type.
     */
 }
+
+export class Gain extends Node {
+    constructor(pos) {
+        super();
+        this.name = "Gain";
+        this.inputList = [
+            new Input(this, "Signal", "signal"),
+            new Input(this, "Gain", "param"),
+        ];
+        this.outputList = [
+            new Output(this, "Signal", "signal"),
+        ];
+        this.backend = {
+            node: engine.audioCtx.createGain(),
+        };
+        this.inputList[1].onReceive = value => {
+            this.backend.node.gain.value = value;
+        };
+        this.inputList[1].assocParam = this.backend.node.gain;
+        this.setPos(pos);
+        this.setWidth(100);
+        this.initHeight();
+    }
+}
