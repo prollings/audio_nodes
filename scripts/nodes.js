@@ -51,6 +51,7 @@ export class Input {
                 this.value = def ? def : false;
                 break;
             case "number":
+            case "param":
                 this.widget = new widgets.Number(this);
                 this.value = def ? def : 0;
                 break;
@@ -63,6 +64,7 @@ export class Input {
             this.widget.setLabel(label);
             this.size.h = this.widget.size.h;
         }
+        this.type = type;
         this.wire = undefined;
         this.parentNode = parentNode;
         this.pos = { x: 0, y: 0 };

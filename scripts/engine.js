@@ -9,6 +9,9 @@ export function connect(output, input) {
     if (output.type === "signal") {
         let transmitter = output.parentNode.backend.node;
         let receiver = input.parentNode.backend.node;
+        if (input.type === "param") {
+            receiver = input.assocParam;
+        }
         transmitter.connect(receiver);
         if (output.parentNode.backend.nodeOnConnect) {
             output.parentNode.backend.nodeOnConnect();
@@ -21,6 +24,9 @@ export function disconnect(output, input) {
     if (output.type === "signal") {
         let transmitter = output.parentNode.backend.node;
         let receiver = input.parentNode.backend.node;
+        if (input.type === "param") {
+            receiver = input.assocParam;
+        }
         transmitter.disconnect(receiver);
         if (output.parentNode.backend.nodeOnDisconnect) {
             output.parentNode.backend.nodeOnDisconnect();
