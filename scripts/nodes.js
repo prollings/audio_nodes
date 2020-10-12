@@ -312,7 +312,7 @@ export class Osc extends Node {
         ];
         this.inputList = [
             new Input(this, "Enabled", "bool"),
-            new Input(this, "Freq", "number"),
+            new Input(this, "Freq", "param"),
         ];
         this.setPos(pos);
         this.setWidth(100);
@@ -328,8 +328,9 @@ export class Osc extends Node {
             }
         };
         this.inputList[1].onReceive = value => {
-            this.backend.node.setFrequency(value);
+            this.backend.node.frequency.value = value;
         };
+        this.inputList[1].assocParam = this.backend.node.frequency;
     }
 }
 

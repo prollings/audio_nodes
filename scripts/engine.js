@@ -65,55 +65,49 @@ export function update() {
 export class Oscillator {
     constructor() {
         this.node = undefined;
-        this.frequency = 0;
+        this.freqController = audioCtx.createConstantSource();
+        this.freqController.start();
+        this.frequency = this.freqController.offset;
+        this.frequency.value = 0;
         this.started = false;
-        this.connectedNodes = [];
+        this.connectedReceivers = [];
     }
 
     start() {
         this.node = audioCtx.createOscillator();
-        for (const node of this.connectedNodes) {
-            this.node.connect(node);
+        this.node.frequency.value = 0;
+        for (const receiver of this.connectedReceivers) {
+            this.node.connect(receiver);
         }
-        this.node.type = "square";
+        // this.node.type = "square";
+        this.freqController.connect(this.node.frequency);
         this.node.start();
-        this.setFrequency(this.frequency);
         this.started = true;
     }
 
     stop() {
         this.node.stop();
-        for (const node of this.connectedNodes) {
-            this.node.disconnect(node);
+        this.freqController.disconnect(this.node.frequency);
+        for (const receiver of this.connectedReceivers) {
+            this.node.disconnect(receiver);
         }
         this.node = undefined;
         this.started = false;
     }
 
-    connect(node) {
-        this.connectedNodes.push(node);
+    connect(receiver) {
+        this.connectedReceivers.push(receiver);
         if (this.started) {
-            this.node.connect(node);
+            this.node.connect(receiver);
         }
     }
 
-    disconnect(node) {
-        let nodeIdx = this.connectedNodes.findIndex(aNode => aNode === node);
-        this.connectedNodes[nodeIdx] = this.connectedNodes[this.connectedNodes.length];
-        this.connectedNodes.pop();
+    disconnect(receiver) {
+        let recIdx = this.connectedReceivers.findIndex(aRec => aRec === receiver);
+        this.connectedReceivers[recIdx] = this.connectedReceivers[this.connectedReceivers.length];
+        this.connectedReceivers.pop();
         if (this.started) {
-            this.node.disconnect(node);
+            this.node.disconnect(receiver);
         }
-    }
-
-    setFrequency(value) {
-        this.frequency = value;
-        if (this.node !== undefined) {
-            this.node.frequency.setValueAtTime(value, audioCtx.currentTime);
-        }
-    }
-
-    setType(type) {
-        
     }
 }
