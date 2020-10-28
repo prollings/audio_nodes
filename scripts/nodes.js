@@ -33,8 +33,25 @@ export class WireFromInput {
 
 export class Wire {
     constructor(input, output) {
-        this.input = input;
         this.output = output;
+        this.input = input;
+        this.path;
+        this.reconstructPath();
+    }
+
+    reconstructPath() {
+        let x1 = this.output.pos.x;
+        x1 += this.output.size.w;
+        let y1 = this.output.pos.y;
+        y1 += this.output.size.h / 2;
+        let x2 = this.input.pos.x;
+        let y2 = this.input.pos.y;
+        y2 += this.input.size.h / 2;
+        let xMag = 10;
+        let path = new Path2D();
+        path.moveTo(x1, y1);
+        path.bezierCurveTo(x1 + xMag, y1, x2 - xMag, y2, x2, y2);
+        this.path = path;
     }
 }
 
@@ -227,6 +244,15 @@ export class Node {
         for (const idx in inputYVals) {
             let input = this.inputList[idx];
             input.setPos({x: pos.x, y: inputYVals[idx]});
+        }
+        // this probably shouldn't be here
+        for (let input of this.inputList) {
+            input.wire?.reconstructPath();
+        }
+        for (let output of this.outputList) {
+            for (let wire of output.wires) {
+                wire.reconstructPath();
+            }
         }
     }
 

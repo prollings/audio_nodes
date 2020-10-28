@@ -394,18 +394,7 @@ function drawFrame(dt) {
         drawWire(heldInputWire.endPos, inPoint);
     }
     for (const wire of wires) {
-        let sender = wire.output.parentNode;
-        let outPoint = {
-            x: sender.pos.x + sender.size.w,
-            y: wire.output.pos.y + (consts.normalSlotHeight / 2),
-        };
-        let receiver = wire.input.parentNode;
-        let input = wire.input;
-        let inPoint = {
-            x: receiver.pos.x + consts.connectPointRadius,
-            y: input.pos.y + input.size.h / 2,
-        };
-        drawWire(outPoint, inPoint);
+        draw.strokePath(wire.path, colWire, 2);
     }
 
     // highlight selected node
