@@ -239,10 +239,11 @@ canvas.addEventListener("mousemove", ev => {
 });
 
 canvas.addEventListener("mousedown", ev => {
+    let x = ev.offsetX;
+    let y = ev.offsetY;
+    // nodes and node internals
     if (focusNode !== undefined) {
         selectedNode = focusNode;
-        let x = ev.offsetX;
-        let y = ev.offsetY;
         let node = focusNode;
         // check header
         let tl = node.pos;
