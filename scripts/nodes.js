@@ -464,3 +464,32 @@ export class Gain extends Node {
         this.initHeight();
     }
 }
+
+export class Envelope extends Node {
+    constructor(pos) {
+        super();
+        this.name = "Envelope";
+        this.inputList = [
+            new Input(this, "Trigger", "trigger"),
+        ];
+        this.outputList = [
+            new Output(this, "Signal", "signal"),
+        ];
+        this.backend = {
+            node: engine.audioCtx.createConstantSource(),
+        };
+        this.backend.node.offset.value = 0;
+        this.backend.node.start();
+        this.inputList[0].onReceive = () => {
+            let node = this.backend.node;
+            let time = engine.audioCtx.currentTime;
+            node.offset.setValueAtTime(0, time);
+            node.offset.linearRampToValueAtTime(1, time + 0.016);
+            node.offset.linearRampToValueAtTime(0.5, time + 0.06);
+            node.offset.linearRampToValueAtTime(0, time + 0.400);
+        }
+        this.setPos(pos);
+        this.setWidth(100);
+        this.initHeight();
+    }
+}

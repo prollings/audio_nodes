@@ -349,6 +349,9 @@ export function createNode(type) {
         case "osc":
             nodeList.push(new nodes.Osc({ x: 0, y: 0 }));
             break;
+        case "envelope":
+            nodeList.push(new nodes.Envelope({ x: 0, y: 0 }));
+            break;
         case "dest":
             nodeList.push(new nodes.Dest({ x: 0, y: 0 }));
             break;
