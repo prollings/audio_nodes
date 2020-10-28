@@ -307,7 +307,15 @@ canvas.addEventListener("mousedown", ev => {
     } else {
         selectedNode = undefined;
     }
-    //
+    // wires
+    heldWire = undefined;
+    selectedWire = undefined;
+    for (const wire of wires) {
+        if (draw.isPointInStroke(x, y, wire.path, 2)) {
+            heldWire = wire;
+            return;
+        }
+    }
 });
 
 canvas.addEventListener("mouseup", ev => {
@@ -346,6 +354,16 @@ canvas.addEventListener("mouseup", ev => {
         outputCandidate = undefined;
     }
     newInputWire = undefined;
+
+    // selecting wire
+    if (heldWire !== undefined) {
+        let x = ev.offsetX;
+        let y = ev.offsetY;
+        if (draw.isPointInStroke(x, y, heldWire.path, 2)) {
+            selectedWire = heldWire;
+            heldWire = undefined;
+        }
+    }
 });
 
 // create nodes
@@ -390,6 +408,9 @@ function drawFrame(dt) {
     }
     for (const wire of wires) {
         draw.strokePath(wire.path, colWire, 2);
+    }
+    if (selectedWire !== undefined) {
+        draw.strokePath(selectedWire.path, "white", 3);
     }
 
     // highlight selected node
