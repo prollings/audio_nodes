@@ -59,3 +59,9 @@ export function fillBackground(col) {
     ctx.fillStyle = col;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
+
+export function strokePath(path, col, lineWidth) {
+    ctx.strokeStyle = col;
+    ctx.lineWidth = lineWidth;
+    ctx.stroke(path);
+}
