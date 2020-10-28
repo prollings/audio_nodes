@@ -378,20 +378,10 @@ function drawFrame(dt) {
     draw.fillBackground(colBackground);
     // draw wires
     if (heldOutputWire !== undefined) {
-        let sender = heldOutputWire.output.parentNode;
-        let outPoint = {
-            x: sender.pos.x + sender.size.w,
-            y: heldOutputWire.output.pos.y + (consts.normalSlotHeight / 2),
-        };
-        drawWire(outPoint, heldOutputWire.endPos);
+        draw.strokePath(heldOutputWire.path, colWire, 2);
     }
     if (heldInputWire !== undefined) {
-        let receiver = heldInputWire.input.parentNode;
-        let inPoint = {
-            x: receiver.pos.x,
-            y: heldInputWire.input.pos.y + (consts.normalSlotHeight / 2),
-        };
-        drawWire(heldInputWire.endPos, inPoint);
+        draw.strokePath(heldInputWire.path, colWire, 2);
     }
     for (const wire of wires) {
         draw.strokePath(wire.path, colWire, 2);
