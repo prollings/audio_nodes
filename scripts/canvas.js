@@ -65,3 +65,8 @@ export function strokePath(path, col, lineWidth) {
     ctx.lineWidth = lineWidth;
     ctx.stroke(path);
 }
+
+export function isPointInStroke(x, y, path, lineWidth) {
+    ctx.lineWidth = lineWidth;
+    return ctx.isPointInStroke(path, x, y);
+}
