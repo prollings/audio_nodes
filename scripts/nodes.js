@@ -192,6 +192,9 @@ export class Node {
         for (let input of this.inputList) {
             input.setWidth(width);
         }
+        for (let output of this.outputList) {
+            output.size.w = width;
+        }
     }
 
     setPos(pos) {
