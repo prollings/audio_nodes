@@ -116,6 +116,7 @@ let nodeList = [];
 let wires = [];
 
 let selectedNode = undefined;
+let selectedWire = undefined;
 
 // custom events
 
@@ -128,6 +129,7 @@ let newOutputWire   = undefined;
 let inputCandidate  = undefined;
 let newInputWire    = undefined;
 let outputCandidate = undefined;
+let heldWire        = undefined;
 
 canvas.addEventListener("mousemove", ev => {
     let x = ev.offsetX;
@@ -237,72 +239,74 @@ canvas.addEventListener("mousemove", ev => {
 });
 
 canvas.addEventListener("mousedown", ev => {
-    if (focusNode === undefined) {
-        selectedNode = undefined;
-        return;
-    }
-    selectedNode = focusNode;
-    let x = ev.offsetX;
-    let y = ev.offsetY;
-    let node = focusNode;
-    // check header
-    let tl = node.pos;
-    let br = {
-        x: tl.x + node.size.w,
-        y: tl.y + consts.headerHeight
-    };
-    if (tl.x <= x && x <= br.x && tl.y <= y && y <= br.y) {
-        isDraggingNode = node;
-        nodeDragOffset = {
-            x: x - tl.x,
-            y: y - tl.y
-        };
-        return;
-    }
-    // check input widget
-    if (focusWidget !== undefined) {
-        heldWidget = focusWidget;
-        heldWidget.onMouseDown();
-    }
-    let cpDiameter = (consts.connectPointRadius * 2);
-    // check input points
-    for (const input of node.inputList) {
-        let tl = {
-            x: node.pos.x,
-            y: input.pos.y,
-        };
+    if (focusNode !== undefined) {
+        selectedNode = focusNode;
+        let x = ev.offsetX;
+        let y = ev.offsetY;
+        let node = focusNode;
+        // check header
+        let tl = node.pos;
         let br = {
-            x: tl.x + cpDiameter,
-            y: tl.y + input.size.h,
+            x: tl.x + node.size.w,
+            y: tl.y + consts.headerHeight
         };
         if (tl.x <= x && x <= br.x && tl.y <= y && y <= br.y) {
-            if (input.wire !== undefined) {
-                engine.disconnect(input.wire.output, input);
-                removeWire(input.wire);
+            isDraggingNode = node;
+            nodeDragOffset = {
+                x: x - tl.x,
+                y: y - tl.y
+            };
+            return;
+        }
+        // check input widget
+        if (focusWidget !== undefined) {
+            heldWidget = focusWidget;
+            heldWidget.onMouseDown();
+        }
+        let cpDiameter = (consts.connectPointRadius * 2);
+        // check input points
+        for (const input of node.inputList) {
+            let tl = {
+                x: node.pos.x,
+                y: input.pos.y,
+            };
+            let br = {
+                x: tl.x + cpDiameter,
+                y: tl.y + input.size.h,
+            };
+            if (tl.x <= x && x <= br.x && tl.y <= y && y <= br.y) {
+                if (input.wire !== undefined) {
+                    engine.disconnect(input.wire.output, input);
+                    removeWire(input.wire);
+                }
+                input.removeWire();
+                newInputWire = new nodes.WireFromInput(input);
+                newInputWire.setEndPos({ x: x, y: y });
+                break;
             }
-            input.removeWire();
-            newInputWire = new nodes.WireFromInput(input);
-            newInputWire.setEndPos({ x: x, y: y });
-            break;
         }
-    }
-    // check output points
-    for (const output of node.outputList) {
-        let yPos = output.pos.y;
-        let tl = {
-            x: node.pos.x + node.size.w - cpDiameter,
-            y: yPos,
-        };
-        let br = {
-            x: tl.x + cpDiameter,
-            y: tl.y + consts.normalSlotHeight,
-        };
-        if (tl.x <= x && x <= br.x && tl.y <= y && y <= br.y) {
-            newOutputWire = new nodes.WireFromOutput(output);
-            newOutputWire.setEndPos({ x: x, y: y });
-            break;
+        // check output points
+        for (const output of node.outputList) {
+            let yPos = output.pos.y;
+            let tl = {
+                x: node.pos.x + node.size.w - cpDiameter,
+                y: yPos,
+            };
+            let br = {
+                x: tl.x + cpDiameter,
+                y: tl.y + consts.normalSlotHeight,
+            };
+            if (tl.x <= x && x <= br.x && tl.y <= y && y <= br.y) {
+                newOutputWire = new nodes.WireFromOutput(output);
+                newOutputWire.setEndPos({ x: x, y: y });
+                break;
+            }
         }
+        return;
+    } else {
+        selectedNode = undefined;
     }
+    //
 });
 
 canvas.addEventListener("mouseup", ev => {
