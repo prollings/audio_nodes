@@ -10,32 +10,72 @@ const status = {
     READY: 2,
 };
 
-export class WireFromOutput {
+class WireBase {
+    constructor() {
+        this.path;
+    }
+
+    rebuildPath(x1, y1, x2, y2) {
+        let xMag = 10;
+        let path = new Path2D();
+        path.moveTo(x1, y1);
+        path.bezierCurveTo(x1 + xMag, y1, x2 - xMag, y2, x2, y2);
+        this.path = path;
+    }
+}
+
+export class WireFromOutput extends WireBase {
     constructor(output) {
+        super();
         this.output = output;
         this.endPos = { x: 0, y: 0 };
+        this.reconstructPath();
     }
 
     setEndPos(pos) {
         this.endPos = pos;
+        this.reconstructPath();
+    }
+
+    reconstructPath() {
+        let x1 = this.output.pos.x;
+        x1 += this.output.size.w;
+        let y1 = this.output.pos.y;
+        y1 += this.output.size.h / 2;
+        let x2 = this.endPos.x;
+        let y2 = this.endPos.y;
+        this.rebuildPath(x1, y1, x2, y2);
     }
 }
 
-export class WireFromInput {
+export class WireFromInput extends WireBase {
     constructor(input) {
+        super();
         this.input = input;
+        this.endPos = { x: 0, y: 0 };
+        this.reconstructPath();
     }
 
     setEndPos(pos) {
         this.endPos = pos;
+        this.reconstructPath();
+    }
+
+    reconstructPath() {
+        let x1 = this.endPos.x;
+        let y1 = this.endPos.y;
+        let x2 = this.input.pos.x;
+        let y2 = this.input.pos.y;
+        y2 += this.input.size.h / 2;
+        this.rebuildPath(x1, y1, x2, y2);
     }
 }
 
-export class Wire {
+export class Wire extends WireBase {
     constructor(input, output) {
+        super();
         this.output = output;
         this.input = input;
-        this.path;
         this.reconstructPath();
     }
 
@@ -47,11 +87,7 @@ export class Wire {
         let x2 = this.input.pos.x;
         let y2 = this.input.pos.y;
         y2 += this.input.size.h / 2;
-        let xMag = 10;
-        let path = new Path2D();
-        path.moveTo(x1, y1);
-        path.bezierCurveTo(x1 + xMag, y1, x2 - xMag, y2, x2, y2);
-        this.path = path;
+        this.rebuildPath(x1, y1, x2, y2);
     }
 }
 
