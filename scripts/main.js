@@ -124,9 +124,9 @@ let focusWidget     = undefined;
 let heldWidget      = undefined;
 let isDraggingNode  = false;
 let nodeDragOffset  = undefined;
-let heldOutputWire  = undefined;
+let newOutputWire   = undefined;
 let inputCandidate  = undefined;
-let heldInputWire   = undefined;
+let newInputWire    = undefined;
 let outputCandidate = undefined;
 
 canvas.addEventListener("mousemove", ev => {
@@ -157,8 +157,8 @@ canvas.addEventListener("mousemove", ev => {
         }
     }
     // control new output wire
-    if (heldOutputWire !== undefined) {
-        heldOutputWire.setEndPos({ x: x, y: y });
+    if (newOutputWire !== undefined) {
+        newOutputWire.setEndPos({ x: x, y: y });
         inputCandidate = undefined;
         if (focusNode !== undefined) {
             // check if the mouse is near an input
@@ -181,8 +181,8 @@ canvas.addEventListener("mousemove", ev => {
         return;
     }
     // control new input wire
-    if (heldInputWire !== undefined) {
-        heldInputWire.setEndPos({ x: x, y: y });
+    if (newInputWire !== undefined) {
+        newInputWire.setEndPos({ x: x, y: y });
         outputCandidate = undefined;
         if (focusNode !== undefined) {
             let node = focusNode;
@@ -281,8 +281,8 @@ canvas.addEventListener("mousedown", ev => {
                 removeWire(input.wire);
             }
             input.removeWire();
-            heldInputWire = new nodes.WireFromInput(input);
-            heldInputWire.setEndPos({ x: x, y: y });
+            newInputWire = new nodes.WireFromInput(input);
+            newInputWire.setEndPos({ x: x, y: y });
             break;
         }
     }
@@ -298,8 +298,8 @@ canvas.addEventListener("mousedown", ev => {
             y: tl.y + consts.normalSlotHeight,
         };
         if (tl.x <= x && x <= br.x && tl.y <= y && y <= br.y) {
-            heldOutputWire = new nodes.WireFromOutput(output);
-            heldOutputWire.setEndPos({ x: x, y: y });
+            newOutputWire = new nodes.WireFromOutput(output);
+            newOutputWire.setEndPos({ x: x, y: y });
             break;
         }
     }
@@ -317,7 +317,7 @@ canvas.addEventListener("mouseup", ev => {
 
     // wires from outputs
     if (inputCandidate !== undefined) {
-        let newWire = new nodes.Wire(inputCandidate, heldOutputWire.output);
+        let newWire = new nodes.Wire(inputCandidate, newOutputWire.output);
         if (newWire.input.wire !== undefined) {
             let oldWire = newWire.input.wire;
             engine.disconnect(oldWire.output, oldWire.input);
@@ -329,18 +329,18 @@ canvas.addEventListener("mouseup", ev => {
         engine.connect(newWire.output, newWire.input);
         inputCandidate = undefined;
     }
-    heldOutputWire = undefined;
+    newOutputWire = undefined;
 
     // wires from inputs
     if (outputCandidate !== undefined) {
-        let newWire = new nodes.Wire(heldInputWire.input, outputCandidate);
+        let newWire = new nodes.Wire(newInputWire.input, outputCandidate);
         engine.connect(newWire.output, newWire.input);
         wires.push(newWire);
         newWire.input.setWire(newWire);
         newWire.output.addWire(newWire);
         outputCandidate = undefined;
     }
-    heldInputWire = undefined;
+    newInputWire = undefined;
 });
 
 // create nodes
@@ -377,11 +377,11 @@ function drawFrame(dt) {
     engine.update();
     draw.fillBackground(colBackground);
     // draw wires
-    if (heldOutputWire !== undefined) {
-        draw.strokePath(heldOutputWire.path, colWire, 2);
+    if (newOutputWire !== undefined) {
+        draw.strokePath(newOutputWire.path, colWire, 2);
     }
-    if (heldInputWire !== undefined) {
-        draw.strokePath(heldInputWire.path, colWire, 2);
+    if (newInputWire !== undefined) {
+        draw.strokePath(newInputWire.path, colWire, 2);
     }
     for (const wire of wires) {
         draw.strokePath(wire.path, colWire, 2);
