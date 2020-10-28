@@ -129,7 +129,7 @@ let inputCandidate  = undefined;
 let heldInputWire   = undefined;
 let outputCandidate = undefined;
 
-document.addEventListener("mousemove", ev => {
+canvas.addEventListener("mousemove", ev => {
     let x = ev.offsetX;
     let y = ev.offsetY;
     // dragging nodes
@@ -236,7 +236,7 @@ document.addEventListener("mousemove", ev => {
     }
 });
 
-document.addEventListener("mousedown", ev => {
+canvas.addEventListener("mousedown", ev => {
     if (focusNode === undefined) {
         selectedNode = undefined;
         return;
@@ -305,7 +305,7 @@ document.addEventListener("mousedown", ev => {
     }
 });
 
-document.addEventListener("mouseup", ev => {
+canvas.addEventListener("mouseup", ev => {
     // moving nodes
     isDraggingNode = false;
     // widgets
